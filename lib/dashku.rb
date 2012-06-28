@@ -64,6 +64,17 @@ class Dashku
     end
   end
 
+  def delete_dashboard(id)
+    request = self.class.delete "/api/dashboards/#{id}", :query => {:apiKey => @api_key}    
+    if request.response.class == Net::HTTPCreated
+      return request.parsed_response
+    elsif request.response.class == Net::HTTPBadRequest
+      raise DashboardNotFoundError
+    elsif request.response.class == Net::HTTPUnauthorized
+      raise ApiKeyInvalidError
+    end
+  end
+
 end
 
 class ApiKeyInvalidError < StandardError

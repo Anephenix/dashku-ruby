@@ -114,4 +114,26 @@ describe Dashku do
 
   end
 
+  describe "delete_dashboard" do
+
+    it "should return the id of the deleted dashboard" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")
+      dashboard = dashku.get_dashboards.select { |d| d["name"] == "King Bishmael" }
+      dashboard = dashboard[0]
+      dashku.delete_dashboard(dashboard["_id"])["dashboardId"].should == dashboard["_id"]            
+    end
+
+    it "should throw an error if there is a problem" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")
+      lambda {
+        dashku.delete_dashboard("waa")
+      }.should raise_error DashboardNotFoundError
+    end
+
+  end
+
 end
