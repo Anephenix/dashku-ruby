@@ -89,4 +89,29 @@ describe Dashku do
 
   end
 
+  describe "update_dashboard" do
+
+    it "should return a dashboard object" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")
+      dashboard = dashku.get_dashboards.select { |d| d["name"] == "King Bishmael" }
+      dashboard = dashboard[0]
+      dashboard["screenWidth"]    = "fluid"
+      req                         = dashku.update_dashboard(dashboard)
+      req.class.should            == Hash
+      req["screenWidth"].should   == dashboard["screenWidth"]
+    end
+
+    it "should throw an error if there is a problem" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")
+      lambda {
+        dashku.update_dashboard({"screenWidth" => "fluid"})
+      }.should raise_error MissingIdError
+    end
+
+  end
+
 end

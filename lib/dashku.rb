@@ -53,20 +53,33 @@ class Dashku
     end
   end
 
+  def update_dashboard(attrs)
+    id = attrs["_id"] || attrs[:_id]
+    raise MissingIdError if id.nil?
+    request = self.class.put "/api/dashboards/#{id}", :query => {:apiKey => @api_key}, :body => attrs    
+    if request.response.class == Net::HTTPCreated
+      return request.parsed_response
+    elsif request.response.class == Net::HTTPUnauthorized
+      raise ApiKeyInvalidError
+    end
+  end
+
 end
 
 class ApiKeyInvalidError < StandardError
-
   def message
     "Couldn't find a user with that API key"
   end
-
 end
 
 class DashboardNotFoundError < StandardError
-
   def message
     "Dashboard not found"
   end
+end
 
+class MissingIdError < StandardError
+  def message
+    "Your attributes are missing an _id field"
+  end
 end
