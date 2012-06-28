@@ -234,4 +234,42 @@ describe Dashku do
 
   end
 
+  describe "delete_widget" do
+
+    it "should return the id of the deleted widget" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")      
+      dashboard               = dashku.get_dashboards.select { |d| d["name"] == "waa" }
+      dashboardId             = dashboard[0]["_id"]
+      widgetId                = dashboard[0]["widgets"][0]["_id"]
+      req                     = dashku.delete_widget(dashboardId,widgetId)
+      req["widgetId"].should  == widgetId
+    end
+
+    it "should throw an error if the dashboard is not found" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")      
+      lambda {
+        dashku.delete_widget("rubbish","waa")
+      }.should raise_error DashboardNotFoundError
+    end
+
+    it "should throw an error if the widget is not found" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")      
+      dashboard   = dashku.get_dashboards.select { |d| d["name"] == "waa" }
+      dashboardId = dashboard[0]["_id"]
+      lambda {
+        dashku.delete_widget(dashboardId,"waa")
+      }.should raise_error WidgetNotFoundError
+
+      # TIDYUP
+      dashku.delete_dashboard(dashboardId)
+    end
+
+  end
+
 end

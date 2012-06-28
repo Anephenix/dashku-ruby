@@ -97,11 +97,25 @@ class Dashku
     if request.response.class == Net::HTTPCreated
       return request.parsed_response
     elsif request.response.class == Net::HTTPBadRequest
-      p request
       raise DashboardNotFoundError
     elsif request.response.class == Net::HTTPUnauthorized
       raise ApiKeyInvalidError
     end
+  end
+
+  def delete_widget(dashboardId, id)
+    request = self.class.delete "/api/dashboards/#{dashboardId}/widgets/#{id}", :query => {:apiKey => @api_key}
+    if request.response.class == Net::HTTPCreated
+      return request.parsed_response
+    elsif request.response.class == Net::HTTPBadRequest
+      if request.parsed_response["reason"].match("No dashboard found")
+        raise DashboardNotFoundError
+      else
+        raise WidgetNotFoundError
+      end
+    elsif request.response.class == Net::HTTPUnauthorized
+      raise ApiKeyInvalidError
+    end    
   end
 
 end
@@ -115,6 +129,12 @@ end
 class DashboardNotFoundError < StandardError
   def message
     "Dashboard not found"
+  end
+end
+
+class WidgetNotFoundError < StandardError
+  def message
+    "Widget not found"
   end
 end
 
