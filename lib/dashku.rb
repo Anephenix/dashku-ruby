@@ -88,6 +88,22 @@ class Dashku
     end    
   end
 
+  def update_widget(attrs)
+    dashboardId = attrs["dashboardId"] || attrs[:dashboardId]
+    raise MissingDashboardIdError if dashboardId.nil?
+    id = attrs["_id"] || attrs[:_id]
+    raise MissingIdError if id.nil?
+    request = self.class.put "/api/dashboards/#{dashboardId}/widgets/#{id}", :query => {:apiKey => @api_key}, :body => attrs
+    if request.response.class == Net::HTTPCreated
+      return request.parsed_response
+    elsif request.response.class == Net::HTTPBadRequest
+      p request
+      raise DashboardNotFoundError
+    elsif request.response.class == Net::HTTPUnauthorized
+      raise ApiKeyInvalidError
+    end
+  end
+
 end
 
 class ApiKeyInvalidError < StandardError

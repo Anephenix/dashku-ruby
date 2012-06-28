@@ -173,7 +173,7 @@ describe Dashku do
       }.should raise_error DashboardNotFoundError
     end
 
-    it "should throw and error if the dashboard id is missing" do
+    it "should throw an error if the dashboard id is missing" do
       dashku = Dashku.new
       dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
       dashku.set_api_url("http://localhost")      
@@ -187,6 +187,49 @@ describe Dashku do
       lambda {
         dashku.create_widget(attrs)
       }.should raise_error MissingDashboardIdError
+    end
+
+  end
+
+  describe "update_widget" do
+    
+    it "should return the widget object" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")      
+      dashboard               = dashku.get_dashboards.select { |d| d["name"] == "waa" }
+      dashboardId             = dashboard[0]["_id"]
+      widget                  = dashboard[0]["widgets"][0]
+      widget["name"]          = "King Widgie"
+      widget["dashboardId"]   = dashboardId
+      req                     = dashku.update_widget(widget)
+      req.class.should        == Hash
+      req["name"].should      == "King Widgie"
+    end
+
+    it "should throw an error if the dashboard id is missing" do
+        dashku = Dashku.new
+        dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+        dashku.set_api_url("http://localhost")      
+        dashboard   = dashku.get_dashboards.select { |d| d["name"] == "waa" }
+        widget      = dashboard[0]["widgets"][0]
+        lambda{
+          dashku.update_widget(widget)
+        }.should raise_error MissingDashboardIdError
+    end
+
+    it "should throw an error if the widget id is missing" do
+        dashku = Dashku.new
+        dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+        dashku.set_api_url("http://localhost")      
+        dashboard   = dashku.get_dashboards.select { |d| d["name"] == "waa" }
+        dashboardId = dashboard[0]["_id"]
+        widget      = dashboard[0]["widgets"][0]
+        widget["dashboardId"] = dashboardId
+        widget.delete("_id")
+        lambda{
+          dashku.update_widget(widget)
+        }.should raise_error MissingIdError
     end
 
   end
