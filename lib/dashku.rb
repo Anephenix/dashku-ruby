@@ -43,6 +43,15 @@ class Dashku
       raise ApiKeyInvalidError
     end
   end
+ 
+  def create_dashboard(attrs)
+    request = self.class.post "/api/dashboards", :query => {:apiKey => @api_key}, :body => attrs
+    if request.response.class == Net::HTTPAccepted
+      return request.parsed_response
+    elsif request.response.class == Net::HTTPUnauthorized
+      raise ApiKeyInvalidError
+    end
+  end
 
 end
 
