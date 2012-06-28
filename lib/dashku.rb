@@ -118,6 +118,17 @@ class Dashku
     end    
   end
 
+  def transmission(data)
+    request = self.class.post "/api/transmission", :query => {:apiKey => @api_key}, :body => data   
+    if request.response.class == Net::HTTPOK
+      return request.parsed_response
+    elsif request.response.class == Net::HTTPBadRequest
+      raise DashboardNotFoundError
+    elsif request.response.class == Net::HTTPUnauthorized
+      raise ApiKeyInvalidError
+    end
+  end
+
 end
 
 class ApiKeyInvalidError < StandardError

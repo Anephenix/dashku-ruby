@@ -266,6 +266,33 @@ describe Dashku do
         dashku.delete_widget(dashboardId,"waa")
       }.should raise_error WidgetNotFoundError
 
+    end
+
+  end
+
+  describe "transmission" do
+    
+    it "should return a success status" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")
+      dashboard   = dashku.get_dashboards.select { |d| d["name"] == "waa" }
+      dashboardId = dashboard[0]["_id"]
+      attrs = {
+        :dashboardId  =>  dashboardId,
+        :name         =>  "My little widgie",
+        :html         =>  "<div id='bigNumber'></div>",
+        :css          =>  "#bigNumber {\n  padding: 10px;\n  margin-top: 50px;\n  font-size: 36pt;\n  font-weight: bold;\n}",
+        :script       =>  "// The widget's html as a jQuery object\nvar widget = this.widget;\n\n// This runs when the widget is loaded\nthis.on('load', function(data){\n  console.log('loaded');\n});\n// This runs when the widget receives a transmission\nthis.on('transmission', function(data){\n  widget.find('#bigNumber').text(data.bigNumber);\n});",
+        :json         =>  "{\n  \"bigNumber\":500\n}"
+      }
+      req = dashku.create_widget(attrs)
+      data = req["json"]
+
+      req = dashku.transmission(data)
+      req.class.should        == Hash
+      req["status"].should    == "success"      
+
       # TIDYUP
       dashku.delete_dashboard(dashboardId)
     end
