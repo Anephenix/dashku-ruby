@@ -8,4 +8,6 @@ Gem::Specification.new do |s|
   s.email       = 'admin@dashku.com'
   s.files       = ["lib/dashku.rb"]
   s.homepage    = 'https://dashku.com'
+  s.add_runtime_dependency 'rspec', '>= 2.10.0'
+  s.add_runtime_dependency 'httparty', '>= 0.8.3'
 end
