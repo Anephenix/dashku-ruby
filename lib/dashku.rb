@@ -75,6 +75,19 @@ class Dashku
     end
   end
 
+  def create_widget(attrs)
+    dashboardId = attrs["dashboardId"] || attrs[:dashboardId]
+    raise MissingDashboardIdError if dashboardId.nil?
+    request = self.class.post "/api/dashboards/#{dashboardId}/widgets", :query => {:apiKey => @api_key}, :body => attrs
+    if request.response.class == Net::HTTPAccepted
+      return request.parsed_response
+    elsif request.response.class == Net::HTTPBadRequest
+      raise DashboardNotFoundError
+    elsif request.response.class == Net::HTTPUnauthorized
+      raise ApiKeyInvalidError
+    end    
+  end
+
 end
 
 class ApiKeyInvalidError < StandardError
@@ -92,5 +105,11 @@ end
 class MissingIdError < StandardError
   def message
     "Your attributes are missing an _id field"
+  end
+end
+
+class MissingDashboardIdError < StandardError
+  def message
+    "Your attributes are missing a dashboardId field"
   end
 end
