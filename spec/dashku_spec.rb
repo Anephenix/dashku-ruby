@@ -31,4 +31,41 @@ describe Dashku do
 
   end
 
+  describe "get_dashboards" do
+    
+    it "should return an array of dashboard objects" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")
+      dashku.get_dashboards.class.should == Array
+    end
+
+    it "should throw an error if there is a problem" do
+      dashku = Dashku.new
+      dashku.set_api_key("waa")
+      dashku.set_api_url("http://localhost")
+      lambda{ dashku.get_dashboards }.should raise_error ApiKeyInvalidError
+    end
+
+  end
+
+  describe "get_dashboard" do
+    
+    it "should return a dashboard object" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")
+      id = dashku.get_dashboards[0]["_id"]
+      dashku.get_dashboard(id).class.should == Hash
+    end
+
+    it "should throw an error if there is a problem" do
+      dashku = Dashku.new
+      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
+      dashku.set_api_url("http://localhost")
+      lambda{ dashku.get_dashboard("waa") }.should raise_error DashboardNotFoundError
+    end
+
+  end
+
 end
