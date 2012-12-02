@@ -1,5 +1,8 @@
 require 'dashku'
 
+test_api_key = "6c9fd252-9e00-46bc-8601-159a9671b0dd"
+test_api_url = "http://localhost:3000"
+
 describe Dashku do
 
   describe "set_api_key" do
@@ -35,15 +38,15 @@ describe Dashku do
     
     it "should return an array of dashboard objects" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       dashku.get_dashboards.class.should == Array
     end
 
     it "should throw an error if there is a problem" do
       dashku = Dashku.new
       dashku.set_api_key("waa")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_url(test_api_url)
       lambda{ dashku.get_dashboards }.should raise_error ApiKeyInvalidError
     end
 
@@ -53,16 +56,16 @@ describe Dashku do
     
     it "should return a dashboard object" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       id = dashku.get_dashboards[0]["_id"]
       dashku.get_dashboard(id).class.should == Hash
     end
 
     it "should throw an error if there is a problem" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       lambda{ dashku.get_dashboard("waa") }.should raise_error DashboardNotFoundError
     end
 
@@ -72,8 +75,8 @@ describe Dashku do
 
     it "should return a dashboard object" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       dashboard_attrs     = {name: "King Bishmael"}
       req                 = dashku.create_dashboard(dashboard_attrs)
       req.class.should    == Hash
@@ -83,7 +86,7 @@ describe Dashku do
     it "should throw an error if there is a problem" do
       dashku = Dashku.new
       dashku.set_api_key("waa")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_url(test_api_url)
       lambda{ dashku.create_dashboard({}) }.should raise_error ApiKeyInvalidError
     end
 
@@ -93,8 +96,8 @@ describe Dashku do
 
     it "should return a dashboard object" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       dashboard = dashku.get_dashboards.select { |d| d["name"] == "King Bishmael" }
       dashboard = dashboard[0]
       dashboard["screenWidth"]    = "fluid"
@@ -105,8 +108,8 @@ describe Dashku do
 
     it "should throw an error if there is a problem" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       lambda {
         dashku.update_dashboard({"screenWidth" => "fluid"})
       }.should raise_error MissingIdError
@@ -118,8 +121,8 @@ describe Dashku do
 
     it "should return the id of the deleted dashboard" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       dashboard = dashku.get_dashboards.select { |d| d["name"] == "King Bishmael" }
       dashboard = dashboard[0]
       dashku.delete_dashboard(dashboard["_id"])["dashboardId"].should == dashboard["_id"]            
@@ -127,8 +130,8 @@ describe Dashku do
 
     it "should throw an error if there is a problem" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       lambda {
         dashku.delete_dashboard("waa")
       }.should raise_error DashboardNotFoundError
@@ -140,8 +143,8 @@ describe Dashku do
 
     it "should return the widget object" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")      
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       id = dashku.create_dashboard({:name => "waa"})["_id"]
       attrs = {
         :dashboardId  => id,
@@ -158,8 +161,8 @@ describe Dashku do
 
     it "should throw and error if there is a problem" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")      
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       attrs = {
         :dashboardId  =>  "rubbish",
         :name         =>  "My little widgie",
@@ -175,8 +178,8 @@ describe Dashku do
 
     it "should throw an error if the dashboard id is missing" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")      
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       attrs = {
         :name         =>  "My little widgie",
         :html         =>  "<div id='bigNumber'></div>",
@@ -195,8 +198,8 @@ describe Dashku do
     
     it "should return the widget object" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")      
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       dashboard               = dashku.get_dashboards.select { |d| d["name"] == "waa" }
       dashboardId             = dashboard[0]["_id"]
       widget                  = dashboard[0]["widgets"][0]
@@ -209,8 +212,8 @@ describe Dashku do
 
     it "should throw an error if the dashboard id is missing" do
         dashku = Dashku.new
-        dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-        dashku.set_api_url("http://localhost")      
+        dashku.set_api_key(test_api_key)
+        dashku.set_api_url(test_api_url)
         dashboard   = dashku.get_dashboards.select { |d| d["name"] == "waa" }
         widget      = dashboard[0]["widgets"][0]
         lambda{
@@ -220,8 +223,8 @@ describe Dashku do
 
     it "should throw an error if the widget id is missing" do
         dashku = Dashku.new
-        dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-        dashku.set_api_url("http://localhost")      
+        dashku.set_api_key(test_api_key)
+        dashku.set_api_url(test_api_url)
         dashboard   = dashku.get_dashboards.select { |d| d["name"] == "waa" }
         dashboardId = dashboard[0]["_id"]
         widget      = dashboard[0]["widgets"][0]
@@ -238,8 +241,8 @@ describe Dashku do
 
     it "should return the id of the deleted widget" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")      
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       dashboard               = dashku.get_dashboards.select { |d| d["name"] == "waa" }
       dashboardId             = dashboard[0]["_id"]
       widgetId                = dashboard[0]["widgets"][0]["_id"]
@@ -249,8 +252,8 @@ describe Dashku do
 
     it "should throw an error if the dashboard is not found" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")      
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       lambda {
         dashku.delete_widget("rubbish","waa")
       }.should raise_error DashboardNotFoundError
@@ -258,8 +261,8 @@ describe Dashku do
 
     it "should throw an error if the widget is not found" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")      
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       dashboard   = dashku.get_dashboards.select { |d| d["name"] == "waa" }
       dashboardId = dashboard[0]["_id"]
       lambda {
@@ -274,8 +277,8 @@ describe Dashku do
     
     it "should return a success status" do
       dashku = Dashku.new
-      dashku.set_api_key("c19cabb2-85d6-4be0-b1d6-d85a19b8245e")
-      dashku.set_api_url("http://localhost")
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
       dashboard   = dashku.get_dashboards.select { |d| d["name"] == "waa" }
       dashboardId = dashboard[0]["_id"]
       attrs = {

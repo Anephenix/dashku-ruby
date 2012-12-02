@@ -1,7 +1,7 @@
 Dashku Rubygem
 ===========
 
-A wrapper to the [Dashku.com](https://dashku.com) API
+A wrapper to the [Dashku.com](https://dashku.com) API. Also used with Dashku open source edition.
 
 Install
 ---
@@ -21,6 +21,12 @@ Require the library, and set your api key
 
     # Fetches your dashboards
     dashku.get_dashboards
+```
+
+NOTE - If you are using Dashku Open Source Edition, you will need to run this command with the Rubygem:
+
+```ruby
+    dashku.set_api_url("YOUR_API_URL")
 ```
 
 Available Commands
@@ -213,12 +219,7 @@ If a request fails for a reason, an exception is thrown, and you'll want to resc
 
   This exception is raised if the "dashboardId" attribute passed to the 'create_widget' or 'update_widget' API calls is missing. 
 
-License
----
-
-MIT
-
 Copyright
 ---
 
-&copy; 2012 Paul Jensen
+&copy; 2012 Anephenix Ltd. Dashku is licensed under the MIT License.
