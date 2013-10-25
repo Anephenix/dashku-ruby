@@ -3,6 +3,9 @@ Dashku Rubygem
 
 A wrapper to the [Dashku.com](https://dashku.com) API. Also used with Dashku open source edition.
 
+[![Code Climate](https://codeclimate.com/repos/526a915413d637486e03937c/badges/2d9f88f0c5a2f5969782/gpa.png)](https://codeclimate.com/repos/526a915413d637486e03937c/feed)
+
+
 Install
 ---
 
