@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'dashku'
-  s.version     = '0.0.1'
-  s.date        = '2012-12-02'
+  s.version     = '0.0.2'
+  s.date        = '2013-11-22'
   s.summary     = "A wrapper to the Dashku API"
   s.description = "A wrapper to the Dashku API"
   s.authors     = ["Paul Jensen"]

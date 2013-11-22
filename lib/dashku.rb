@@ -4,7 +4,7 @@ class Dashku
   include HTTParty
 
   def initialize
-    @api_url = "http://176.58.100.203"
+    @api_url = "https://dashku.com"
   end
 
   def api_key
