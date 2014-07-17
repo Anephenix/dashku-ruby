@@ -9,8 +9,11 @@ services:
   - mongodb
   - redis-server
 
-before_script
+before_script:
   - npm install dashku-web
   - TEST_USER_PATH=/tmp npm run dashku-web generateTestUser
   - NODE_ENV=test npm run dashku-web regenerateApiKeyDb
-  - NODE_ENV=test npm run dashku-web start & sleep 5  
+  - NODE_ENV=test npm run dashku-web start & sleep 5
+
+script:
+  - rspec
