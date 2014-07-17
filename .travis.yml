@@ -15,7 +15,6 @@ before_script:
   - NODE_ENV=test npm run dashku-web regenerateApiKeyDb
   - NODE_ENV=test npm run dashku-web start & sleep 5
   - bundle install
-  - gem install rspec --no-ri --no-rdoc
 
 script:
-  - rspec
+  - bundle exec rspec
