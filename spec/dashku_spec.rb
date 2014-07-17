@@ -54,6 +54,27 @@ describe Dashku do
 
   end
 
+  describe "create_dashboard" do
+
+    it "should return a dashboard object" do
+      dashku = Dashku.new
+      dashku.set_api_key(test_api_key)
+      dashku.set_api_url(test_api_url)
+      dashboard_attrs     = {name: "King Bishmael"}
+      req                 = dashku.create_dashboard(dashboard_attrs)
+      req.class.should    == Hash
+      req["name"].should  == dashboard_attrs[:name]
+    end
+
+    it "should throw an error if there is a problem" do
+      dashku = Dashku.new
+      dashku.set_api_key("waa")
+      dashku.set_api_url(test_api_url)
+      lambda{ dashku.create_dashboard({}) }.should raise_error ApiKeyInvalidError
+    end
+
+  end
+
   describe "get_dashboards" do
     
     it "should return an array of dashboard objects" do
@@ -87,27 +108,6 @@ describe Dashku do
       dashku.set_api_key(test_api_key)
       dashku.set_api_url(test_api_url)
       lambda{ dashku.get_dashboard("waa") }.should raise_error DashboardNotFoundError
-    end
-
-  end
-
-  describe "create_dashboard" do
-
-    it "should return a dashboard object" do
-      dashku = Dashku.new
-      dashku.set_api_key(test_api_key)
-      dashku.set_api_url(test_api_url)
-      dashboard_attrs     = {name: "King Bishmael"}
-      req                 = dashku.create_dashboard(dashboard_attrs)
-      req.class.should    == Hash
-      req["name"].should  == dashboard_attrs[:name]
-    end
-
-    it "should throw an error if there is a problem" do
-      dashku = Dashku.new
-      dashku.set_api_key("waa")
-      dashku.set_api_url(test_api_url)
-      lambda{ dashku.create_dashboard({}) }.should raise_error ApiKeyInvalidError
     end
 
   end
