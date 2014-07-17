@@ -1,6 +1,26 @@
 require 'dashku'
+require 'json'
 
-test_api_key = "6c9fd252-9e00-46bc-8601-159a9671b0dd"
+
+class MissingTestUserDataFileError < StandardError
+
+  def message
+    return "You need to create a testUser config file in /tmp/testUser.json. See README for details"
+  end
+
+end
+
+
+# Raise an error if the testuser json file does not exist
+#
+testUserDataFilePath = '/tmp/testUser.json'
+
+raise MissingTestUserDataFileError unless File.exist?(testUserDataFilePath)
+
+data    = File.read(testUserDataFilePath)
+config  = JSON.parse(data) 
+
+test_api_key = config["apiKey"]
 test_api_url = "http://localhost:3000"
 
 describe Dashku do
@@ -19,7 +39,7 @@ describe Dashku do
     
     it "should return the api url" do
       dashku = Dashku.new
-      dashku.api_url.should == "http://176.58.100.203"
+      dashku.api_url.should == "https://dashku.com"
     end
 
   end
