@@ -225,4 +225,4 @@ If a request fails for a reason, an exception is thrown, and you'll want to resc
 Copyright
 ---
 
-&copy; 2013 Anephenix Ltd. Dashku is licensed under the MIT License.
+&copy; 2014 Anephenix Ltd. Dashku is licensed under the MIT License.
