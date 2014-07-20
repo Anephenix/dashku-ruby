@@ -30,7 +30,7 @@ describe Dashku do
     it "should set the api key for dashku" do      
       dashku = Dashku.new
       dashku.set_api_key("waaa")
-      dashku.api_key.should == "waaa"
+      expect(dashku.api_key).to eq("waaa")
     end
 
   end
@@ -39,7 +39,7 @@ describe Dashku do
     
     it "should return the api url" do
       dashku = Dashku.new
-      dashku.api_url.should == "https://dashku.com"
+      expect(dashku.api_url).to eq("https://dashku.com")
     end
 
   end
@@ -49,7 +49,7 @@ describe Dashku do
     it "should set the api url" do
       dashku = Dashku.new
       dashku.set_api_url("http://waaa")
-      dashku.api_url.should == "http://waaa"
+      expect(dashku.api_url).to eq("http://waaa")
     end
 
   end
@@ -62,15 +62,15 @@ describe Dashku do
       dashku.set_api_url(test_api_url)
       dashboard_attrs     = {name: "King Bishmael"}
       req                 = dashku.create_dashboard(dashboard_attrs)
-      req.class.should    == Hash
-      req["name"].should  == dashboard_attrs[:name]
+      expect(req.class).to eq(Hash)
+      expect(req["name"]).to  eq(dashboard_attrs[:name])
     end
 
     it "should throw an error if there is a problem" do
       dashku = Dashku.new
       dashku.set_api_key("waa")
       dashku.set_api_url(test_api_url)
-      lambda{ dashku.create_dashboard({}) }.should raise_error ApiKeyInvalidError
+      expect(lambda{ dashku.create_dashboard({}) }).to raise_error ApiKeyInvalidError
     end
 
   end
@@ -81,14 +81,14 @@ describe Dashku do
       dashku = Dashku.new
       dashku.set_api_key(test_api_key)
       dashku.set_api_url(test_api_url)
-      dashku.get_dashboards.class.should == Array
+      expect(dashku.get_dashboards.class).to eq(Array)
     end
 
     it "should throw an error if there is a problem" do
       dashku = Dashku.new
       dashku.set_api_key("waa")
       dashku.set_api_url(test_api_url)
-      lambda{ dashku.get_dashboards }.should raise_error ApiKeyInvalidError
+      expect(lambda{ dashku.get_dashboards }).to raise_error ApiKeyInvalidError
     end
 
   end
@@ -100,14 +100,14 @@ describe Dashku do
       dashku.set_api_key(test_api_key)
       dashku.set_api_url(test_api_url)
       id = dashku.get_dashboards[0]["_id"]
-      dashku.get_dashboard(id).class.should == Hash
+      expect(dashku.get_dashboard(id).class).to eq(Hash)
     end
 
     it "should throw an error if there is a problem" do
       dashku = Dashku.new
       dashku.set_api_key(test_api_key)
       dashku.set_api_url(test_api_url)
-      lambda{ dashku.get_dashboard("waa") }.should raise_error DashboardNotFoundError
+      expect(lambda{ dashku.get_dashboard("waa") }).to raise_error DashboardNotFoundError
     end
 
   end
@@ -122,17 +122,17 @@ describe Dashku do
       dashboard = dashboard[0]
       dashboard["screenWidth"]    = "fluid"
       req                         = dashku.update_dashboard(dashboard)
-      req.class.should            == Hash
-      req["screenWidth"].should   == dashboard["screenWidth"]
+      expect(req.class).to        eq(Hash)
+      expect(req["screenWidth"]).to eq(dashboard["screenWidth"])
     end
 
     it "should throw an error if there is a problem" do
       dashku = Dashku.new
       dashku.set_api_key(test_api_key)
       dashku.set_api_url(test_api_url)
-      lambda {
+      expect(lambda {
         dashku.update_dashboard({"screenWidth" => "fluid"})
-      }.should raise_error MissingIdError
+      }).to raise_error MissingIdError
     end
 
   end
@@ -145,16 +145,16 @@ describe Dashku do
       dashku.set_api_url(test_api_url)
       dashboard = dashku.get_dashboards.select { |d| d["name"] == "King Bishmael" }
       dashboard = dashboard[0]
-      dashku.delete_dashboard(dashboard["_id"])["dashboardId"].should == dashboard["_id"]            
+      expect(dashku.delete_dashboard(dashboard["_id"])["dashboardId"]).to eq(dashboard["_id"])            
     end
 
     it "should throw an error if there is a problem" do
       dashku = Dashku.new
       dashku.set_api_key(test_api_key)
       dashku.set_api_url(test_api_url)
-      lambda {
+      expect(lambda {
         dashku.delete_dashboard("waa")
-      }.should raise_error DashboardNotFoundError
+      }).to raise_error DashboardNotFoundError
     end
 
   end
@@ -175,8 +175,8 @@ describe Dashku do
         :json         =>  "{\n  \"bigNumber\":500\n}"
       }
       req = dashku.create_widget(attrs)
-      req.class.should     == Hash
-      req["name"].should   == attrs[:name]
+      expect(req.class).to eq(Hash)
+      expect(req["name"]).to eq(attrs[:name])
     end
 
     it "should throw and error if there is a problem" do
@@ -191,9 +191,9 @@ describe Dashku do
         :script       =>  "// The widget's html as a jQuery object\nvar widget = this.widget;\n\n// This runs when the widget is loaded\nthis.on('load', function(data){\n  console.log('loaded');\n});\n// This runs when the widget receives a transmission\nthis.on('transmission', function(data){\n  widget.find('#bigNumber').text(data.bigNumber);\n});",
         :json         =>  "{\n  \"bigNumber\":500\n}"
       }
-      lambda {
+      expect(lambda {
         dashku.create_widget(attrs)
-      }.should raise_error DashboardNotFoundError
+      }).to raise_error DashboardNotFoundError
     end
 
     it "should throw an error if the dashboard id is missing" do
@@ -207,9 +207,9 @@ describe Dashku do
         :script       =>  "// The widget's html as a jQuery object\nvar widget = this.widget;\n\n// This runs when the widget is loaded\nthis.on('load', function(data){\n  console.log('loaded');\n});\n// This runs when the widget receives a transmission\nthis.on('transmission', function(data){\n  widget.find('#bigNumber').text(data.bigNumber);\n});",
         :json         =>  "{\n  \"bigNumber\":500\n}"
       }
-      lambda {
+      expect(lambda {
         dashku.create_widget(attrs)
-      }.should raise_error MissingDashboardIdError
+      }).to raise_error MissingDashboardIdError
     end
 
   end
@@ -226,8 +226,8 @@ describe Dashku do
       widget["name"]          = "King Widgie"
       widget["dashboardId"]   = dashboardId
       req                     = dashku.update_widget(widget)
-      req.class.should        == Hash
-      req["name"].should      == "King Widgie"
+      expect(req.class).to    eq(Hash)
+      expect(req["name"]).to  eq("King Widgie")
     end
 
     it "should throw an error if the dashboard id is missing" do
@@ -236,9 +236,9 @@ describe Dashku do
         dashku.set_api_url(test_api_url)
         dashboard   = dashku.get_dashboards.select { |d| d["name"] == "waa" }
         widget      = dashboard[0]["widgets"][0]
-        lambda{
+        expect(lambda{
           dashku.update_widget(widget)
-        }.should raise_error MissingDashboardIdError
+        }).to raise_error MissingDashboardIdError
     end
 
     it "should throw an error if the widget id is missing" do
@@ -250,9 +250,9 @@ describe Dashku do
         widget      = dashboard[0]["widgets"][0]
         widget["dashboardId"] = dashboardId
         widget.delete("_id")
-        lambda{
+        expect(lambda{
           dashku.update_widget(widget)
-        }.should raise_error MissingIdError
+        }).to raise_error MissingIdError
     end
 
   end
@@ -267,16 +267,16 @@ describe Dashku do
       dashboardId             = dashboard[0]["_id"]
       widgetId                = dashboard[0]["widgets"][0]["_id"]
       req                     = dashku.delete_widget(dashboardId,widgetId)
-      req["widgetId"].should  == widgetId
+      expect(req["widgetId"]).to eq(widgetId)
     end
 
     it "should throw an error if the dashboard is not found" do
       dashku = Dashku.new
       dashku.set_api_key(test_api_key)
       dashku.set_api_url(test_api_url)
-      lambda {
+      expect(lambda {
         dashku.delete_widget("rubbish","waa")
-      }.should raise_error DashboardNotFoundError
+      }).to raise_error DashboardNotFoundError
     end
 
     it "should throw an error if the widget is not found" do
@@ -285,9 +285,9 @@ describe Dashku do
       dashku.set_api_url(test_api_url)
       dashboard   = dashku.get_dashboards.select { |d| d["name"] == "waa" }
       dashboardId = dashboard[0]["_id"]
-      lambda {
+      expect(lambda {
         dashku.delete_widget(dashboardId,"waa")
-      }.should raise_error WidgetNotFoundError
+      }).to raise_error WidgetNotFoundError
 
     end
 
@@ -313,8 +313,8 @@ describe Dashku do
       data = req["json"]
 
       req = dashku.transmission(data)
-      req.class.should        == Hash
-      req["status"].should    == "success"      
+      expect(req.class).to eq(Hash)
+      expect(req["status"]).to eq("success")      
 
       # TIDYUP
       dashku.delete_dashboard(dashboardId)
