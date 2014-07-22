@@ -1,6 +1,7 @@
 require 'dashku'
 require 'json'
-
+require 'coveralls'
+Coveralls.wear!
 
 class MissingTestUserDataFileError < StandardError
 
