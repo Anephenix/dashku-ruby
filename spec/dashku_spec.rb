@@ -1,10 +1,6 @@
+require 'spec_helper.rb'
 require 'dashku'
 require 'json'
-require 'coveralls'
-
-# Initialises Coveralls to collect Code Coverage data
-#
-Coveralls.wear!
 
 class MissingTestUserDataFileError < StandardError
 
