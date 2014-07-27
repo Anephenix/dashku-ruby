@@ -297,9 +297,6 @@ describe Dashku do
       req = dashku.transmission data
       expect(req.class).to eq Hash
       expect(req["status"]).to eq "success"      
-
-      # TIDYUP
-      dashku.delete_dashboard dashboardId
     end
 
   end
