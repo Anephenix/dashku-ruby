@@ -3,11 +3,11 @@ Dashku Rubygem
 
 A wrapper to the [Dashku.com](https://dashku.com) API. Also used with Dashku open source edition.
 
-[![Gem Version](https://badge.fury.io/rb/dashku.png)](http://badge.fury.io/rb/dashku)
-[![Dependency Status](https://gemnasium.com/Anephenix/dashku-ruby.svg)](https://gemnasium.com/Anephenix/dashku-ruby)
-[![Coverage Status](https://img.shields.io/coveralls/Anephenix/dashku-ruby.png)](https://coveralls.io/r/Anephenix/dashku-ruby)
-[![Build Status](https://travis-ci.org/Anephenix/dashku-ruby.png?branch=master)](https://travis-ci.org/Anephenix/dashku-ruby)
-[![Code Climate](https://codeclimate.com/github/Anephenix/dashku-ruby.png)](https://codeclimate.com/github/Anephenix/dashku-ruby)
+[![Gem Version](https://badge.fury.io/rb/dashku.svg)](http://badge.fury.io/rb/dashku)
+[![Dependency Status](https://gemnasium.com/dashku/dashku-ruby.svg)](https://gemnasium.com/dashku/dashku-ruby)
+[![Coverage Status](https://img.shields.io/coveralls/dashku/dashku-ruby.svg)](https://coveralls.io/r/dashku/dashku-ruby)
+[![Build Status](https://travis-ci.org/dashku/dashku-ruby.svg?branch=master)](https://travis-ci.org/dashku/dashku-ruby)
+[![Code Climate](https://codeclimate.com/github/dashku/dashku-ruby.svg)](https://codeclimate.com/github/dashku/dashku-ruby)
 
 
 Install
