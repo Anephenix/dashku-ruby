@@ -1,12 +1,12 @@
 Dashku Rubygem
 ===========
 
+NOTE - this Rubygem will be revamped soon.
+
 A wrapper to the [Dashku.com](https://dashku.com) API. Also used with Dashku open source edition.
 
 [![Gem Version](https://badge.fury.io/rb/dashku.svg)](http://badge.fury.io/rb/dashku)
-[![Dependency Status](https://gemnasium.com/dashku/dashku-ruby.svg)](https://gemnasium.com/dashku/dashku-ruby)
 [![Coverage Status](https://img.shields.io/coveralls/dashku/dashku-ruby.svg)](https://coveralls.io/r/dashku/dashku-ruby)
-[![Build Status](https://travis-ci.org/dashku/dashku-ruby.svg?branch=master)](https://travis-ci.org/dashku/dashku-ruby)
 [![Code Climate](https://codeclimate.com/github/dashku/dashku-ruby.svg)](https://codeclimate.com/github/dashku/dashku-ruby)
 
 
@@ -229,4 +229,4 @@ If a request fails for a reason, an exception is thrown, and you'll want to resc
 Copyright
 ---
 
-&copy; 2015 Anephenix Ltd. The Dashku rubygem is licensed under the MIT License.
+&copy; 2020 Anephenix Ltd. The Dashku rubygem is licensed under the MIT License.
